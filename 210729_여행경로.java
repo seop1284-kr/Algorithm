@@ -2,25 +2,34 @@ package 여행경로_43164;
 
 import java.util.*;
 
-public class Solution2 {
+// https://programmers.co.kr/learn/courses/30/lessons/43164#
+
+public class Solution {
 	
 	public static boolean [] visit;
-	public static Solution2 ins = new Solution2();
+	public static Solution ins = new Solution();
 	public static boolean isGoal;
 	
 	public static String[] solution(String[][] tickets) {
-		ArrayList<String> ans = new ArrayList<>();
+		ArrayList<Pair> ans = new ArrayList<>();
 		visit = new boolean[tickets.length];
 		
-		ans.add("ICN");
+		ans.add(ins.new Pair(0, "ICN"));
 
 		dfs(0, "ICN", tickets, ans);
 		
-		String[] answer = ans.toArray(new String[ans.size()]);
+		String[] answer = new String[ans.size()];
+
+		int i = 0;
+		
+		for (Pair p : ans) {
+			answer[i++] = p.val;
+		}
 		
 		return answer;
 	}
-	public static void dfs(int cnt, String start, String[][] tickets, ArrayList<String> res) {
+	
+	public static void dfs(int cnt, String start, String[][] tickets, ArrayList<Pair> res) {
 		
 		List<Pair> tmp = new ArrayList<>();
 		
@@ -45,30 +54,17 @@ public class Solution2 {
 			
 			if (!isGoal) {
 				visit[tmp.get(i).idx] = true;
-				res.add(tmp.get(i).val);	
+				res.add(tmp.get(i));	
 			}
 			dfs(cnt + 1, tmp.get(i).val, tickets, res);		
 			if (!isGoal) {
 				visit[tmp.get(i).idx] = false;
-				res.remove(tmp.get(i).val);				
+				res.remove(tmp.get(i));				
 			}
 		}
 		
 	}
-	public static void main(String[] args) {
-		//String[][] a = {{"ICN", "JFK"}, {"HND", "IAD"}, {"JFK", "HND"}};
-		//String[][] a = {{"ICN", "SFO"}, {"ICN", "ATL"}, {"SFO", "ATL"}, {"ATL", "ICN"}, {"ATL","SFO"}};
-		String[][] a = {{"ICN", "BBB"},{"ICN", "CCC"},{"BBB", "CCC"},{"CCC", "BBB"},{"CCC", "ICN"}};
-		for (String s : solution(a)) System.out.println(s);
-		System.out.println();
-	}
-// 입력
-//[["ICN", "BBB"],["ICN", "CCC"],["BBB", "CCC"],["CCC", "BBB"],["CCC", "ICN"]]
 
-//정답
-//["ICN", "BBB", "CCC", "ICN", "CCC", "BBB"]
-//실행한 결괏값 ["ICN","CCC","BBB","ICN","CCC","BBB"]
-		
 	class Pair {
 		int idx;
 		String val;
@@ -78,4 +74,3 @@ public class Solution2 {
 		}
 	}
 }
-
